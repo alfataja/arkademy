@@ -98,13 +98,18 @@
   	header("location:index.php?pesan=belum_login");
   }
 
-
+  $id=$_POST['id'];
   include"database/koneksi.php";
-  $select="SELECT person.*, regions.name FROM person, regions where person.region_id=regions.id_regions";
+  $select="Select * from person where id_person='$id'";
   $hasil=mysqli_query($koneksi,$select);
 
 
+
+  $hasil=mysqli_query($koneksi,$select);
+
+  while($buff=mysqli_fetch_array($hasil)){;
   ?>
+
   </div>
 
   <nav class="navbar navbar-default" role="navigation">
@@ -122,8 +127,8 @@
     <div class="collapse navbar-collapse navbar-ex1-collapse">
       <ul class="nav navbar-nav">
         <li><a href="home.php">Menu Utama</a></li>
-        <li class="active"><a href="#">Data Penduduk</a></li>
-        <li ><a href="region.php">Data Wilayah</a></li>
+        <li ><a href="penduduk.php">Data Penduduk</a></li>
+        <li class="active"><a href="#">Data Wilayah</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
           <li><a href="database/logout.php">Logout</a></li>
@@ -136,51 +141,26 @@
 
 
     <div class="jumbotron">
-      <h1>Data Penduduk</h1>
+      <h1>Edit Data Penduduk</h1>
     </div>
-
-    <td><a class="btn btn-primary btn-block" href="tambah_penduduk.php">Tambah Penduduk</a></td>
-    <table class="table table-striped" data-effect="fade">
-      <thead>
-        <tr>
-          <th>Id Penduduk</th>
-          <th>Nama</th>
-          <th>Region</th>
-          <th>Alamat</th>
-          <th>Pendapatan</th>
-          <th>Diinput Pada</th>
-        </tr>
-      </thead>
-
-    <?php
-    while($buff=mysqli_fetch_array($hasil)){
-    ?>
-
-      <tbody>
-        <tr>
-          <td><?php echo $buff ['id_person'];?></td>
-          <td><?php echo $buff ['person_name'];?></td>
-          <td><?php echo $buff ['name'];?></td>
-          <td><?php echo $buff ['address'];?></td>
-          <td><?php echo $buff ['income'];?></td>
-          <td><?php echo $buff ['created_at'];?></td>
-          <td>
-            <form method="post" action="edit_person.php">
-            <input type="hidden" name="id" value="<?php echo $buff ["id_person"];?>">
-              <input class="btn btn-info btn-sm" type="submit" align="center" value="Edit">
-            </form>
-            <form method="post" action="database/hapus_person.php">
-              <input type="hidden" name="id" value="<?php echo $buff ["id_person"];?>">
-              <input class="btn btn-danger btn-sm" type="submit" align="center" value="Hapus">
-            </form>
-          </td>
-
-        </tr>
-      </tbody>
-
-    <?php
-    };
-    ?>
+    <form action="database/person_edit_proc.php" method="post">
+    <table width="600" border="0">
+    <input type="hidden" name="id" value="<?php echo $buff['id_regions'];?>" />
+      <tr>
+        <td> Nama  </td>
+        <td><input class="form-control" type="text" name="nama" value="<?php echo $buff['person_name'];?>" /></td>
+      </tr>
+      <tr>
+        <td> Alamat </td>
+        <td><input class="form-control" type="text" name="alamat" value="<?php echo $buff['address'];?>" /></td>
+      </tr>
+      <tr>
+        <td> Income </td>
+        <td><input class="form-control" type="text" name="income" value="<?php echo $buff['income'];?>" /></td>
+      </tr>
+      <td><input type="submit" value="Submit" /></td>
+    </table>
+    </form>
 
     </table>
     <!-- /container -->
@@ -204,6 +184,10 @@
 
   <!-- Bootstrap 3 has typeahead optionally -->
   <script src="assets/js/typeahead.min.js"></script>
+
+<?php
+  };
+?>
 
 </body>
 

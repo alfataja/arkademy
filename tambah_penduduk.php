@@ -97,14 +97,8 @@
   if($_SESSION['status']!="login"){
   	header("location:index.php?pesan=belum_login");
   }
-
-
-  include"database/koneksi.php";
-  $select="SELECT person.*, regions.name FROM person, regions where person.region_id=regions.id_regions";
-  $hasil=mysqli_query($koneksi,$select);
-
-
   ?>
+
   </div>
 
   <nav class="navbar navbar-default" role="navigation">
@@ -122,8 +116,8 @@
     <div class="collapse navbar-collapse navbar-ex1-collapse">
       <ul class="nav navbar-nav">
         <li><a href="home.php">Menu Utama</a></li>
-        <li class="active"><a href="#">Data Penduduk</a></li>
-        <li ><a href="region.php">Data Wilayah</a></li>
+        <li ><a href="penduduk.php">Data Penduduk</a></li>
+        <li class="active"><a href="#">Data Wilayah</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
           <li><a href="database/logout.php">Logout</a></li>
@@ -136,53 +130,39 @@
 
 
     <div class="jumbotron">
-      <h1>Data Penduduk</h1>
+      <h1>Tambah Data Penduduk</h1>
     </div>
+      <form action="database/tambah_person_proc.php" method="post">
+      	<table width="1000" border="0" align="center">
+      		<tr>
+      			<td>ID Penduduk</td>
+      			<td ><input class="form-control" type="number" name="id" required /></td>
+      		</tr>
+      		<tr>
+      			<td> Nama  </td>
+      			<td ><input class="form-control" type="text" name="nama" required/></td>
+      		</tr>
+          <tr>
+      			<td> Wilayah </td>
+      			<td ><input class="form-control" type="text" name="region" required/></td>
+      		</tr>
+          <tr>
+      			<td> Alamat  </td>
+      			<td ><input class="form-control" type="text" name="alamat" required/></td>
+      		</tr>
+          <tr>
+            <td> Income  </td>
+            <td ><input class="form-control" type="text" name="income" required/></td>
+          </tr>
 
-    <td><a class="btn btn-primary btn-block" href="tambah_penduduk.php">Tambah Penduduk</a></td>
-    <table class="table table-striped" data-effect="fade">
-      <thead>
-        <tr>
-          <th>Id Penduduk</th>
-          <th>Nama</th>
-          <th>Region</th>
-          <th>Alamat</th>
-          <th>Pendapatan</th>
-          <th>Diinput Pada</th>
-        </tr>
-      </thead>
+      		<tr>
+      			<td > </td>
+      			<td height="68" align="right"><input type="reset" value="Reset" /></td>
+      			<td ><input type="submit" value="Submit" /></td>
+      		</tr>
 
-    <?php
-    while($buff=mysqli_fetch_array($hasil)){
-    ?>
-
-      <tbody>
-        <tr>
-          <td><?php echo $buff ['id_person'];?></td>
-          <td><?php echo $buff ['person_name'];?></td>
-          <td><?php echo $buff ['name'];?></td>
-          <td><?php echo $buff ['address'];?></td>
-          <td><?php echo $buff ['income'];?></td>
-          <td><?php echo $buff ['created_at'];?></td>
-          <td>
-            <form method="post" action="edit_person.php">
-            <input type="hidden" name="id" value="<?php echo $buff ["id_person"];?>">
-              <input class="btn btn-info btn-sm" type="submit" align="center" value="Edit">
-            </form>
-            <form method="post" action="database/hapus_person.php">
-              <input type="hidden" name="id" value="<?php echo $buff ["id_person"];?>">
-              <input class="btn btn-danger btn-sm" type="submit" align="center" value="Hapus">
-            </form>
-          </td>
-
-        </tr>
-      </tbody>
-
-    <?php
-    };
-    ?>
-
-    </table>
+      	</table>
+      </form>
     <!-- /container -->
 
   <footer class="text-center">
@@ -204,6 +184,7 @@
 
   <!-- Bootstrap 3 has typeahead optionally -->
   <script src="assets/js/typeahead.min.js"></script>
+
 
 </body>
 
